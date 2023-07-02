@@ -1,0 +1,5 @@
+package com.ComuniCate.proj.Repository;
+
+public interface ReportRepository {
+
+}

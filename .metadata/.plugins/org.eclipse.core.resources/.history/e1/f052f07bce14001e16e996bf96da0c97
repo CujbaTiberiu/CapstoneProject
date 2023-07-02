@@ -1,0 +1,5 @@
+package com.ComuniCate.proj.Enum;
+
+public enum ReportType {
+
+}

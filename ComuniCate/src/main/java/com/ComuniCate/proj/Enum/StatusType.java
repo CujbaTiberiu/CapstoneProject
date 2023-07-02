@@ -1,0 +1,12 @@
+package com.ComuniCate.proj.Enum;
+
+public enum StatusType {
+
+	INVIATA,
+	RICEVUTA,
+	IN_CARICO,
+	INTERVENTO_IN_CORSO,
+	INTERVENTO_IN_STAND_BY,
+	INTERVENTO_FINITO,
+	SUCCESSO
+}

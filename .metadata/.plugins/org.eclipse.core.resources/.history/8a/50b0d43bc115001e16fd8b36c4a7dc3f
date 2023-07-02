@@ -1,0 +1,75 @@
+package com.ComuniCate.proj.Service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ComuniCate.proj.Entity.Photo;
+import com.ComuniCate.proj.Entity.Report;
+import com.ComuniCate.proj.Entity.User;
+import com.ComuniCate.proj.Model.ReportDTO;
+import com.ComuniCate.proj.Repository.ReportRepository;
+import com.ComuniCate.proj.Repository.UserRepository;
+
+import jakarta.persistence.EntityNotFoundException;
+
+@Service 
+public class ReportService {
+
+	@Autowired ReportRepository db;
+	@Autowired UserRepository dbUser;
+	
+	public Report add(ReportDTO r) {
+		if(!dbUser.existsByUsername(r.getUsername())) {
+			throw new EntityNotFoundException("Username doesn't exist in Database!");
+		}
+		
+		User user = dbUser.findByUsername(r.getUsername()).get();
+		Report rep = new Report();
+		rep.setDescription(r.getDescription());
+		rep.setLatitude(r.getLatitude());
+		rep.setLongitude(r.getLongitude());
+		rep.setReportType(r.getReportType());
+		rep.setUser(user);
+		rep.setPhotos(r.getPhotos());
+		for (Photo photo : r.getPhotos()) {
+		       photo.setReport(rep);
+		   }
+		return db.save(rep);
+	}
+	
+	public Report update(Report r, long id) {
+		if(!db.existsById(id)) {
+			throw new EntityNotFoundException("Report doesn't exist in database!");
+		}
+		return db.save(r);
+	}
+	
+	public String delete(long id) {
+		if(!db.existsById(id)){
+			throw new EntityNotFoundException("Report doesn't exist in database!");
+		}
+		db.deleteById(id);
+		return "Report removed successfully!";
+	}
+	
+	public Report getById(long id) {
+		if(!db.existsById(id)){
+			throw new EntityNotFoundException("Report doesn't exist in database!");
+		}
+		return db.findById(id).get();
+	}
+	
+	public List<Report> getAll(){
+		return db.findAll();
+	}
+	
+	public List<Report> findByUserId(long id){
+		if(dbUser.findById(id).get().getReport() == null) {
+			throw new EntityNotFoundException("There are no reports in database!");
+		}
+		return dbUser.findById(id).get().getReport();
+	}
+	
+}

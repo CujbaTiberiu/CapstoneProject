@@ -1,0 +1,46 @@
+package com.ComuniCate.proj.Service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ComuniCate.proj.Entity.User;
+import com.ComuniCate.proj.Repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
+
+@Service
+public class UserService {
+
+	@Autowired UserRepository db;
+	
+	public User add(User u) {
+		return db.save(u);
+	}
+	
+	public User update(User u, long id) {
+		if(!db.existsById(id)) {
+			throw new EntityNotFoundException("User doesn't exist in database!");
+		}
+		return db.save(u);
+	}
+	
+	public String delete(long id) {
+		if(!db.existsById(id)){
+			throw new EntityNotFoundException("User doesn't exist in database!");
+		}
+		db.deleteById(id);
+		return "User removed successfully!";
+	}
+	
+	public User getById(long id) {
+		if(!db.existsById(id)){
+			throw new EntityNotFoundException("User doesn't exist in database!");
+		}
+		return db.findById(id).get();
+	}
+	
+	public List<User> getAll(){
+		return db.findAll();
+	}
+}

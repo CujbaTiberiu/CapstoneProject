@@ -1,0 +1,55 @@
+package com.ComuniCate.proj.Configuration;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.ComuniCate.proj.Entity.Report;
+import com.ComuniCate.proj.Service.ReportService;
+
+@RestController
+@RequestMapping("/api/report")
+public class ReportConfig {
+
+	@Autowired 
+	private ReportService rs;
+	
+	
+	@PostMapping("/user/{idUser}")
+	public ResponseEntity<?> save(@RequestBody Report report,@PathVariable Long idUser) {
+		return ResponseEntity.ok(rs.add(report, idUser));
+	}
+	
+	@PutMapping("/{id}")
+	public ResponseEntity<?> update(@PathVariable long id, @RequestBody Report report) {
+		return ResponseEntity.ok(rs.update(report, id));
+	}
+	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> delete(@PathVariable long id) {
+		return ResponseEntity.ok(rs.delete(id));
+	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<?> getById(@PathVariable long id){
+		return ResponseEntity.ok(rs.getById(id));
+	}
+	
+	@GetMapping("/all")
+	public ResponseEntity<?> getAll(){
+		return ResponseEntity.ok(rs.getAll());
+	}
+	
+	@GetMapping("/user/{userId}")
+	public ResponseEntity<?> getAllByUser(@PathVariable Long idUser){
+		return ResponseEntity.ok(rs.findByUserId(idUser));
+	}
+	
+}

@@ -1,0 +1,35 @@
+package com.ComuniCate.proj.Service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ComuniCate.proj.Entity.Photo;
+import com.ComuniCate.proj.Repository.PhotoRepository;
+
+import jakarta.persistence.EntityExistsException;
+
+@Service
+public class PhotoService {
+
+	@Autowired PhotoRepository db;
+	
+	public Photo add(Photo p) {
+		return db.save(p);
+	}
+	
+	public Photo update(Photo p, long id) {
+		if(!db.existsById(id)) {
+			throw new EntityExistsException("Photo doesn't exist in database!");
+		}
+		return db.save(p);
+	}
+	
+	public String delete(long id) {
+		if(!db.existsById(id)) {
+			throw new EntityExistsException("Photo doesn't exist in database!");
+		}
+		 db.deleteById(id);
+		 return "Photo deleted successfully!";
+	}
+	
+}
