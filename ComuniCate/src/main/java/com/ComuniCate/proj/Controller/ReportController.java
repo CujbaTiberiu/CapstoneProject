@@ -26,6 +26,7 @@ import com.ComuniCate.proj.Model.ReportDTO;
 import com.ComuniCate.proj.Service.PhotoService;
 import com.ComuniCate.proj.Service.ReportService;
 
+//@CrossOrigin(origins = "http://localhost:3000")
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/report")
@@ -38,11 +39,12 @@ public class ReportController {
 	private PhotoService ps;
 
 	@PostMapping
-	public ResponseEntity<?> save(@ModelAttribute ReportDTO report, @RequestParam("photo") List<MultipartFile> photoFiles) throws IOException {
-	    return ResponseEntity.ok(rs.add(report, photoFiles));
+	public ResponseEntity<?> save(@ModelAttribute ReportDTO report,
+			@RequestParam("photo") List<MultipartFile> photoFiles) throws IOException {
+		return ResponseEntity.ok(rs.add(report, photoFiles));
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
+	//@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping("/{id}")
 	public ResponseEntity<?> update(@PathVariable long id, @RequestBody Report report) {
 		return ResponseEntity.ok(rs.update(report, id));
@@ -53,21 +55,21 @@ public class ReportController {
 		return ResponseEntity.ok(rs.delete(id));
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
+	//@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getById(@PathVariable long id) {
 		return ResponseEntity.ok(rs.getById(id));
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
+	//@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("/all")
 	public ResponseEntity<?> getAll() {
 		return ResponseEntity.ok(rs.getAll());
 	}
 
-	@GetMapping("all/user/{idUser}")
-	public ResponseEntity<?> getAllByUser(@PathVariable Long idUser) {
-		return ResponseEntity.ok(rs.findByUserId(idUser));
+	@GetMapping("/user/{username}")
+	public ResponseEntity<?> getAllByUser(@PathVariable String username) {
+		return ResponseEntity.ok(rs.findAllByUserName(username));
 	}
 
 }

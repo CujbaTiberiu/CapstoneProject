@@ -2,6 +2,7 @@ package com.ComuniCate.proj.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ public class ReportService {
 	
 	@Transactional
 	public Report add(ReportDTO r, List<MultipartFile> photoFiles) throws IOException {
+		System.out.println(r.getUsername());
 		if (!dbUser.existsByUsername(r.getUsername())) {
 			throw new EntityNotFoundException("Username doesn't exist in Database!");
 		}
@@ -97,11 +99,27 @@ public class ReportService {
 		return db.findAll();
 	}
 
-	public List<Report> findByUserId(long id) {
-		if (dbUser.findById(id).get().getReport() == null) {
-			throw new EntityNotFoundException("There are no reports in database!");
+	@Transactional
+    public List<Report> findAllByUserName(String username) {
+		if (!dbUser.existsByUsername(username)) {
+			throw new EntityNotFoundException("Username doesn't exist in Database!");
 		}
-		return dbUser.findById(id).get().getReport();
-	}
+        if (dbUser.findByUsername(username).get().getReport().isEmpty()) {
+            throw new EntityNotFoundException("There are no reports in the database!");
+        }
+
+        List<Report> reports = dbUser.findByUsername(username).get().getReport();
+        for (Report report : reports) {
+            List<Photo> photos = report.getPhotos();
+            for (Photo photo : photos) {
+                String fileName = photo.getName();
+                byte[] imageData = dbPhoto.downloadImage(fileName);
+                String imageUrl = "http://localhost:8080/api/photo/" + photo.getName();
+                photo.setImageUrl(imageUrl);
+            }
+        }
+
+        return reports;
+    }
 
 }

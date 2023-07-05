@@ -37,7 +37,7 @@ public class User {
     private String password;
     @Column(nullable = false, name = "tax_code", unique = true)
     private String taxCode;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Report> report = new ArrayList<>();
     
     // Il caricamento EAGER delle raccolte significa che vengono recuperate 

@@ -32,7 +32,7 @@ public class PhotoService {
     }
 
 
-
+	@Transactional
     public byte[] downloadImage(String fileName) {
         Optional<Photo> dbImageData = db.findByName(fileName);
         byte[] images = ImageUtils.decompressImage(dbImageData.get().getImageData());

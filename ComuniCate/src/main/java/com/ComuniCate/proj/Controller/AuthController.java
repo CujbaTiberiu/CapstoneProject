@@ -33,10 +33,12 @@ public class AuthController {
     public ResponseEntity<JWTAuthResponse> login(@RequestBody LoginDto loginDto){
            	
     	String token = authService.login(loginDto);
+    	String role = authService.userRole(loginDto.getUsername());
 
         JWTAuthResponse jwtAuthResponse = new JWTAuthResponse();
         jwtAuthResponse.setUsername(loginDto.getUsername());
         jwtAuthResponse.setAccessToken(token);
+        jwtAuthResponse.setRole(role);
 
         return ResponseEntity.ok(jwtAuthResponse);
     }

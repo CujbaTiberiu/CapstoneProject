@@ -124,5 +124,21 @@ public class AuthServiceImpl implements AuthService {
     	else if(role.equals("MODERATOR")) return ERole.ROLE_MODERATOR;
     	else return ERole.ROLE_USER;
     }
+
+    @Override
+    public String userRole(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new MyAPIException(HttpStatus.NOT_FOUND, "User not found"));
+
+        Set<Role> roles = user.getRoles();
+        if (roles.isEmpty()) {
+            throw new MyAPIException(HttpStatus.NOT_FOUND, "No roles found for the user");
+        }
+
+     
+        Role role = roles.iterator().next();
+        return role.getRoleName().name();
+    }
+
     
 }

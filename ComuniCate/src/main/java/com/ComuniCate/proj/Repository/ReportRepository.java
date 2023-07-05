@@ -10,6 +10,7 @@ import com.ComuniCate.proj.Entity.Report;
 @Repository
 public interface ReportRepository extends JpaRepository<Report, Long>{
 	
-	public List<Report> findByUserId(long id);
+	
+	public List<Report> findAllByUserName(String username);
 
 }

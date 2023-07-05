@@ -34,8 +34,12 @@ public class Photo {
     
     @Lob
     @Column(name = "image_data",length = 1048576)
+    @JsonIgnore
     private byte[] imageData;
 
+    @Column(name = "image_url",length = 255)
+    private String imageUrl;
+    
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "report_id")
