@@ -32,6 +32,7 @@ public class ReportService {
 	@Transactional
 	public Report add(ReportDTO r, List<MultipartFile> photoFiles) throws IOException {
 		System.out.println(r.getUsername());
+		
 		if (!dbUser.existsByUsername(r.getUsername())) {
 			throw new EntityNotFoundException("Username doesn't exist in Database!");
 		}
@@ -72,13 +73,104 @@ public class ReportService {
 
 		return db.save(rep);
 	}
+//
+//	@Transactional
+//	public Report update(ReportDTO r, long id, long userId, List<MultipartFile> photoFiles) throws IOException {
+//	    if (!db.existsById(id)) {
+//	        throw new EntityNotFoundException("Report doesn't exist in the database!");
+//	    }
+//	    Report report = db.findById(id).get();
+//	    List<Photo> photos = new ArrayList<>();
+//	    // Verifica che l'utente associato al report corrisponda all'ID dell'utente passato
+//	    if (report.getUser().getId() != userId) {
+//	        throw new EntityNotFoundException("User with this ID doesn't exist in database!");
+//	    }
+//
+//	    // Aggiorna i campi del report con i nuovi valori
+//	    report.setDescription(r.getDescription());
+//	    report.setLatitude(r.getLatitude());
+//	    report.setLongitude(r.getLongitude());
+//	    report.setReportType(r.getReportType());
+//	    report.setStatus(r.getStatus());
+//	    report.setUser(dbUser.findById(userId).get());
+//
+//	    // Aggiorna le foto
+//	    for (MultipartFile photoFile : photoFiles) {
+//	        byte[] imageData = photoFile.getBytes();
+//	        String fileName = photoFile.getOriginalFilename();
+//
+//	        // Cerca se esiste già un'istanza di Photo con lo stesso nome del file
+//	        Photo existingPhoto = dbPhoto.findByFileName(fileName);
+//	        if (existingPhoto != null) {
+//	            // Se esiste, sovrascrivi l'immagine e mantieni l'istanza esistente
+//	            existingPhoto.setImageData(imageData);
+//	            existingPhoto.setType(photoFile.getContentType());
+//	            photos.add(existingPhoto);
+//	        } else {
+//	            // Altrimenti, crea una nuova istanza di Photo
+//	            Photo newPhoto = new Photo();
+//	            newPhoto.setName(fileName);
+//	            newPhoto.setImageData(imageData);
+//	            newPhoto.setType(photoFile.getContentType());
+//	            newPhoto.setReport(report);
+//	            photos.add(newPhoto);
+//	        }
+//	    }
+//
+//	    report.setPhotos(photos);
+//
+//	    return db.save(report);
+//	}
 
-	public Report update(Report r, long id) {
-		if (!db.existsById(id)) {
-			throw new EntityNotFoundException("Report doesn't exist in database!");
-		}
-		return db.save(r);
+	@Transactional
+	public Report update(ReportDTO r, long id, long userId, List<MultipartFile> photoFiles) throws IOException {
+	    if (!db.existsById(id)) {
+	        throw new EntityNotFoundException("Report doesn't exist in the database!");
+	    }
+	    Report report = db.findById(id).get();
+	    List<Photo> photos = new ArrayList<>();
+	    // Verifica che l'utente associato al report corrisponda all'ID dell'utente passato
+	    if (report.getUser().getId() != userId) {
+	        throw new EntityNotFoundException("User with this ID doesn't exist in database!");
+	    }
+
+	    // Aggiorna i campi del report con i nuovi valori
+	    report.setDescription(r.getDescription());
+	    report.setLatitude(r.getLatitude());
+	    report.setLongitude(r.getLongitude());
+	    report.setReportType(r.getReportType());
+	    report.setStatus(r.getStatus());
+	    report.setUser(dbUser.findById(userId).get());
+
+	    // Aggiorna le foto
+	    for (MultipartFile photoFile : photoFiles) {
+	        byte[] imageData = photoFile.getBytes();
+	        String fileName = photoFile.getOriginalFilename();
+
+	        // Cerca se esiste già un'istanza di Photo con lo stesso nome del file
+	        Photo existingPhoto = dbPhoto.findByFileName(fileName);
+	        if (existingPhoto != null) {
+	            // Se esiste, sovrascrivi l'immagine e mantieni l'istanza esistente
+	            existingPhoto.setImageData(imageData);
+	            existingPhoto.setType(photoFile.getContentType());
+	            photos.add(existingPhoto);
+	        } else {
+	            // Altrimenti, crea una nuova istanza di Photo
+	            Photo newPhoto = new Photo();
+	            newPhoto.setName(fileName);
+	            newPhoto.setImageData(imageData);
+	            newPhoto.setType(photoFile.getContentType());
+	            newPhoto.setReport(report);
+	            photos.add(newPhoto);
+	        }
+	    }
+
+	    report.setPhotos(photos);
+
+	    return db.save(report);
 	}
+	
+	
 
 	public String delete(long id) {
 		if (!db.existsById(id)) {
@@ -101,6 +193,7 @@ public class ReportService {
 
 	@Transactional
     public List<Report> findAllByUserName(String username) {
+		System.out.println(username);
 		if (!dbUser.existsByUsername(username)) {
 			throw new EntityNotFoundException("Username doesn't exist in Database!");
 		}

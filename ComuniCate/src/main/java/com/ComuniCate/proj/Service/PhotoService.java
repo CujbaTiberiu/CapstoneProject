@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ComuniCate.proj.Entity.Photo;
+import com.ComuniCate.proj.Entity.Report;
 import com.ComuniCate.proj.Model.ImageUtils;
 import com.ComuniCate.proj.Repository.PhotoRepository;
 
@@ -47,6 +48,7 @@ public class PhotoService {
 	public Photo add(Photo p) {
 		return db.save(p);
 	}
+	
 	
 	/*public Photo update(Photo p, long id) {
 		if(!db.existsById(id)) {

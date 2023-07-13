@@ -13,6 +13,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Data
 @NoArgsConstructor
@@ -37,6 +39,7 @@ public class User {
     private String password;
     @Column(nullable = false, name = "tax_code", unique = true)
     private String taxCode;
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Report> report = new ArrayList<>();
     

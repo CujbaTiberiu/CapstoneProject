@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -44,11 +45,13 @@ public class ReportController {
 		return ResponseEntity.ok(rs.add(report, photoFiles));
 	}
 
-	//@PreAuthorize("hasRole('ADMIN')")
-	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@PathVariable long id, @RequestBody Report report) {
-		return ResponseEntity.ok(rs.update(report, id));
+	// @PreAuthorize("hasRole('ADMIN')")
+	@PutMapping(value = "/{id}/{userId}")
+	public ResponseEntity<?> update(@PathVariable long id, @PathVariable long userId, @ModelAttribute ReportDTO report,
+			@RequestParam("photo") List<MultipartFile> photoFiles) throws IOException {
+		return ResponseEntity.ok(rs.update(report, id, userId, photoFiles));
 	}
+
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> delete(@PathVariable long id) {

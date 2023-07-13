@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="com.ComuniCate.proj.Enum.ReportType"/>
-    <fullyQualifiedTypeName name="com.ComuniCate.proj.Service.AuthService"/>
-    <fullyQualifiedTypeName name="com.ComuniCate.proj.Payload.JWTAuthResponse"/>
-    <fullyQualifiedTypeName name="com.ComuniCate.proj.Payload.LoginDto"/>
     <fullyQualifiedTypeName name="com.ComuniCate.proj.Payload.RegisterDto"/>
     <fullyQualifiedTypeName name="jakarta.validation.constraints.Pattern"/>
     <fullyQualifiedTypeName name="java.util.regex.Pattern"/>
@@ -13,7 +9,6 @@
     <fullyQualifiedTypeName name="com.ComuniCate.proj.Service.ReportService"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestBody"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PutMapping"/>
-    <fullyQualifiedTypeName name="com.ComuniCate.proj.Entity.Report"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.DeleteMapping"/>
     <fullyQualifiedTypeName name="org.springframework.web.service.annotation.GetExchange"/>
     <fullyQualifiedTypeName name="com.ComuniCate.proj.Repository.UserRepository"/>
@@ -35,7 +30,6 @@
     <fullyQualifiedTypeName name="lombok.Data"/>
     <fullyQualifiedTypeName name="lombok.AllArgsConstructor"/>
     <fullyQualifiedTypeName name="lombok.NoArgsConstructor"/>
-    <fullyQualifiedTypeName name="jakarta.persistence.EntityNotFoundException"/>
     <fullyQualifiedTypeName name="com.ComuniCate.proj.Model.ReportDTO"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.CrossOrigin"/>
     <fullyQualifiedTypeName name="jakarta.persistence.Lob"/>
@@ -59,5 +53,11 @@
     <fullyQualifiedTypeName name="java.util.ArrayList"/>
     <fullyQualifiedTypeName name="com.ComuniCate.proj.Entity.Photo"/>
     <fullyQualifiedTypeName name="jakarta.persistence.EntityExistsException"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.EntityNotFoundException"/>
     <fullyQualifiedTypeName name="jakarta.transaction.Transactional"/>
+    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestPart"/>
+    <fullyQualifiedTypeName name="org.apache.tomcat.util.http.parser.MediaType"/>
+    <fullyQualifiedTypeName name="java.awt.PageAttributes.MediaType"/>
+    <fullyQualifiedTypeName name="org.springframework.http.MediaType"/>
+    <fullyQualifiedTypeName name="com.ComuniCate.proj.Entity.Report"/>
 </qualifiedTypeNameHistroy>
