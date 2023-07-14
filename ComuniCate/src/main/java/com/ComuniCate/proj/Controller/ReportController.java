@@ -38,6 +38,12 @@ public class ReportController {
 
 	@Autowired
 	private PhotoService ps;
+	
+//	@PostMapping
+//	public ResponseEntity<?> save(@ModelAttribute ReportDTO report,
+//			@RequestParam("photo") List<MultipartFile> photoFiles) throws IOException {
+//		return ResponseEntity.ok(rs.add(report, photoFiles));
+//	}
 
 	@PostMapping
 	public ResponseEntity<?> save(@ModelAttribute ReportDTO report,
@@ -45,8 +51,13 @@ public class ReportController {
 		return ResponseEntity.ok(rs.add(report, photoFiles));
 	}
 
-	// @PreAuthorize("hasRole('ADMIN')")
-	@PutMapping(value = "/{id}/{userId}")
+//	@PutMapping("/{id}")
+//	public ResponseEntity<?> update(@PathVariable long id, @RequestBody Report report) {
+//		return ResponseEntity.ok(rs.update(report, id));
+//	}
+	
+	 //@PreAuthorize("hasRole('ADMIN')")
+	@PutMapping("/{id}/{userId}")
 	public ResponseEntity<?> update(@PathVariable long id, @PathVariable long userId, @ModelAttribute ReportDTO report,
 			@RequestParam("photo") List<MultipartFile> photoFiles) throws IOException {
 		return ResponseEntity.ok(rs.update(report, id, userId, photoFiles));

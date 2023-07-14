@@ -4,16 +4,18 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.web.multipart.MultipartFile;
+
 
 import com.ComuniCate.proj.Entity.Photo;
 import com.ComuniCate.proj.Enum.ReportType;
 import com.ComuniCate.proj.Enum.StatusType;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReportDTO {

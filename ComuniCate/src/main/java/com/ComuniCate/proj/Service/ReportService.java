@@ -73,54 +73,7 @@ public class ReportService {
 
 		return db.save(rep);
 	}
-//
-//	@Transactional
-//	public Report update(ReportDTO r, long id, long userId, List<MultipartFile> photoFiles) throws IOException {
-//	    if (!db.existsById(id)) {
-//	        throw new EntityNotFoundException("Report doesn't exist in the database!");
-//	    }
-//	    Report report = db.findById(id).get();
-//	    List<Photo> photos = new ArrayList<>();
-//	    // Verifica che l'utente associato al report corrisponda all'ID dell'utente passato
-//	    if (report.getUser().getId() != userId) {
-//	        throw new EntityNotFoundException("User with this ID doesn't exist in database!");
-//	    }
-//
-//	    // Aggiorna i campi del report con i nuovi valori
-//	    report.setDescription(r.getDescription());
-//	    report.setLatitude(r.getLatitude());
-//	    report.setLongitude(r.getLongitude());
-//	    report.setReportType(r.getReportType());
-//	    report.setStatus(r.getStatus());
-//	    report.setUser(dbUser.findById(userId).get());
-//
-//	    // Aggiorna le foto
-//	    for (MultipartFile photoFile : photoFiles) {
-//	        byte[] imageData = photoFile.getBytes();
-//	        String fileName = photoFile.getOriginalFilename();
-//
-//	        // Cerca se esiste già un'istanza di Photo con lo stesso nome del file
-//	        Photo existingPhoto = dbPhoto.findByFileName(fileName);
-//	        if (existingPhoto != null) {
-//	            // Se esiste, sovrascrivi l'immagine e mantieni l'istanza esistente
-//	            existingPhoto.setImageData(imageData);
-//	            existingPhoto.setType(photoFile.getContentType());
-//	            photos.add(existingPhoto);
-//	        } else {
-//	            // Altrimenti, crea una nuova istanza di Photo
-//	            Photo newPhoto = new Photo();
-//	            newPhoto.setName(fileName);
-//	            newPhoto.setImageData(imageData);
-//	            newPhoto.setType(photoFile.getContentType());
-//	            newPhoto.setReport(report);
-//	            photos.add(newPhoto);
-//	        }
-//	    }
-//
-//	    report.setPhotos(photos);
-//
-//	    return db.save(report);
-//	}
+	
 
 	@Transactional
 	public Report update(ReportDTO r, long id, long userId, List<MultipartFile> photoFiles) throws IOException {
@@ -142,6 +95,10 @@ public class ReportService {
 	    report.setStatus(r.getStatus());
 	    report.setUser(dbUser.findById(userId).get());
 
+	    for (Photo photo : report.getPhotos()) {
+	        dbPhoto.delete(photo.getId());
+	    }
+	    
 	    // Aggiorna le foto
 	    for (MultipartFile photoFile : photoFiles) {
 	        byte[] imageData = photoFile.getBytes();
@@ -150,23 +107,27 @@ public class ReportService {
 	        // Cerca se esiste già un'istanza di Photo con lo stesso nome del file
 	        Photo existingPhoto = dbPhoto.findByFileName(fileName);
 	        if (existingPhoto != null) {
-	            // Se esiste, sovrascrivi l'immagine e mantieni l'istanza esistente
-	            existingPhoto.setImageData(imageData);
-	            existingPhoto.setType(photoFile.getContentType());
+	            // Se esiste, mantieni l'istanza esistente
+	            existingPhoto.setImageData(existingPhoto.getImageData());
+	            existingPhoto.setType(existingPhoto.getType());
+	            existingPhoto.setImageUrl(existingPhoto.getImageUrl());
+	            existingPhoto.setName(existingPhoto.getName());
+	            existingPhoto.setReport(report);
 	            photos.add(existingPhoto);
 	        } else {
-	            // Altrimenti, crea una nuova istanza di Photo
+	             //Altrimenti, crea una nuova istanza di Photo
 	            Photo newPhoto = new Photo();
 	            newPhoto.setName(fileName);
 	            newPhoto.setImageData(imageData);
 	            newPhoto.setType(photoFile.getContentType());
 	            newPhoto.setReport(report);
+	            newPhoto =  dbPhoto.uploadImage(photoFile);
 	            photos.add(newPhoto);
 	        }
 	    }
 
 	    report.setPhotos(photos);
-
+	    
 	    return db.save(report);
 	}
 	
@@ -179,6 +140,7 @@ public class ReportService {
 		db.deleteById(id);
 		return "Report removed successfully!";
 	}
+	
 
 	public Report getById(long id) {
 		if (!db.existsById(id)) {
@@ -186,11 +148,13 @@ public class ReportService {
 		}
 		return db.findById(id).get();
 	}
+	
 
 	public List<Report> getAll() {
 		return db.findAll();
 	}
 
+	
 	@Transactional
     public List<Report> findAllByUserName(String username) {
 		System.out.println(username);

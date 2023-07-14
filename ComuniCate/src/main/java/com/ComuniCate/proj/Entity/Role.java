@@ -2,15 +2,16 @@ package com.ComuniCate.proj.Entity;
 
 import com.ComuniCate.proj.Enum.ERole;
 
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Data
+@Setter
+@Getter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor

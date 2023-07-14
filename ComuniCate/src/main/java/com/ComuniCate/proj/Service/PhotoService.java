@@ -22,7 +22,7 @@ public class PhotoService {
 
 	@Autowired PhotoRepository db;
 	
-	//@Transactional
+	@Transactional
 	public Photo uploadImage(MultipartFile file) throws IOException {
 		byte[] imageData = ImageUtils.compressImage(file.getBytes());
 	    return db.save(Photo.builder()
@@ -40,6 +40,7 @@ public class PhotoService {
         return images;
     }
 	
+	@Transactional
     public Photo findByFileName(String fileName) {
         return db.findByName(fileName).orElse(null);
     }
@@ -49,6 +50,14 @@ public class PhotoService {
 		return db.save(p);
 	}
 	
+
+	public String delete(long id) {
+		if(!db.existsById(id)) {
+			throw new EntityExistsException("Photo doesn't exist in database!");
+		}
+		 db.deleteById(id);
+		 return "Photo deleted successfully!";
+	}
 	
 	/*public Photo update(Photo p, long id) {
 		if(!db.existsById(id)) {
@@ -57,13 +66,6 @@ public class PhotoService {
 		return db.save(p);
 	}
 	
-	public String delete(long id) {
-		if(!db.existsById(id)) {
-			throw new EntityExistsException("Photo doesn't exist in database!");
-		}
-		 db.deleteById(id);
-		 return "Photo deleted successfully!";
-	}
 	
 	public Photo getById(long id) {
 		if(!db.existsById(id)){
