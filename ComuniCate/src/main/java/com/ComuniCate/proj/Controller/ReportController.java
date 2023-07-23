@@ -21,8 +21,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ComuniCate.proj.Entity.Photo;
-import com.ComuniCate.proj.Entity.Report;
 import com.ComuniCate.proj.Model.ReportDTO;
 import com.ComuniCate.proj.Service.PhotoService;
 import com.ComuniCate.proj.Service.ReportService;
@@ -56,7 +54,7 @@ public class ReportController {
 //		return ResponseEntity.ok(rs.update(report, id));
 //	}
 	
-	 //@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping("/{id}/{userId}")
 	public ResponseEntity<?> update(@PathVariable long id, @PathVariable long userId, @ModelAttribute ReportDTO report,
 			@RequestParam("photo") List<MultipartFile> photoFiles) throws IOException {
@@ -69,13 +67,13 @@ public class ReportController {
 		return ResponseEntity.ok(rs.delete(id));
 	}
 
-	//@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getById(@PathVariable long id) {
 		return ResponseEntity.ok(rs.getById(id));
 	}
 
-	//@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("/all")
 	public ResponseEntity<?> getAll() {
 		return ResponseEntity.ok(rs.getAll());
